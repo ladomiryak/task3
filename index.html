@@ -24,11 +24,10 @@
 		height: 20px;
 		text-align: center;
 		cursor: pointer;
+		font-size: 0;
 	}
 
-	table.with-values td:before {
-		content: attr(clicked);
-		display: inline-block;
+	table.with-values td {
 		font-size: 14px;
 	}
 
@@ -105,10 +104,10 @@
 
 		const storeData = event => {
 			const element = event.target;
-			const prevValue = element.getAttribute("clicked");
+			const prevValue = element.innerHTML;
 			const newValue = prevValue ? Number(prevValue) + 1 : 1;
 
-			element.setAttribute("clicked", newValue);
+			element.innerHTML = newValue;
 
 			// element.style.backgroundColor = `hsla(0, 98%, ${newValue}%, 1)`;
 
@@ -138,7 +137,7 @@
 
 		resetBtn.addEventListener('click', () => {
 			tbody.querySelectorAll('td').forEach(element => {
-				element.setAttribute('clicked', 0);
+				element.innerHTML = '';
 				element.className = '';
 				table.classList.remove('with-values');
 			});
