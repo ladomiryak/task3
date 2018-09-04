@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<style>
+	:root {
+		--color-sm: #FCF6A9;
+		--color-md: #fccf05;
+		--color-lg: #FC8505;
+		--color-xl: #F50202;
+	}
+
+	table {
+		margin-bottom: 20px;
+	}
+
+	table td {
+		padding: 10px;
+		border: 1px solid;
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	table.with-values td:before {
+		content: attr(clicked);
+		display: inline-block;
+		font-size: 14px;
+	}
+
+	table.with-values td.sm {
+		background-color: var(--color-sm);
+	}
+
+	table.with-values td.md {
+		background-color: var(--color-md);
+	}
+
+	table.with-values td.lg {
+		background-color: var(--color-lg);
+	}
+
+	table.with-values td.xl {
+		background-color: var(--color-xl);
+	}
+</style>
+
+<body>
+	<table class="table">
+		<tbody></tbody>
+	</table>
+
+	<button class='generate'>Generate click</button>
+	<button class='show'>Show result</button>
+	<button class='reset'>Reset</button>
+</body>
+
+<script>
+	(function () {
+		const table = document.querySelector('.table');
+		const tbody = document.querySelector('.table tbody');
+		const ROWS = 10;
+		const COLS = 10;
+		const tableSize = ROWS * COLS;
+
+		const generateBtn = document.querySelector('.generate');
+		const showBtn = document.querySelector('.show');
+		const resetBtn = document.querySelector('.reset');
+
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		/*  generate table columns  */
+
+		for (let i = 0; i < tableSize; i++) {
+			const row = document.createElement('tr');
+			const column = document.createElement('td');
+
+			if (i % ROWS === 0) {
+				tbody.appendChild(row);
+			}
+
+			tbody.querySelector('tr:last-child').appendChild(column);
+		}
+
+
+		/*  generate random clicks  */
+
+		generateBtn.addEventListener('click', e => {
+			e.preventDefault();
+
+			for (let i = 0; i < tableSize; i++) {
+				const randCol = getRandomInt(0, 99);
+				const td = tbody.querySelectorAll('td')[randCol];
+				td.click();
+			}
+		});
+
+		/*  store clicked data  */
+
+		const storeData = event => {
+			const element = event.target;
+			const prevValue = element.getAttribute("clicked");
+			const newValue = prevValue ? Number(prevValue) + 1 : 1;
+
+			element.setAttribute("clicked", newValue);
+
+			// element.style.backgroundColor = `hsla(0, 98%, ${newValue}%, 1)`;
+
+			if (newValue >= 25 && newValue < 50) {
+				element.className = 'sm';
+			} else if (newValue >= 50 && newValue < 75) {
+				element.className = 'md';
+			} else if (newValue >= 75 && newValue <= 100) {
+				element.className = 'lg';
+			}
+
+		};
+
+		tbody.querySelectorAll('td').forEach(element => {
+			element.addEventListener('click', storeData);
+		});
+
+		/*  show results  */
+
+		showBtn.addEventListener('click', e => {
+			e.preventDefault();
+
+			table.classList.add('with-values');
+		});
+
+		/*  reset results  */
+
+		resetBtn.addEventListener('click', () => {
+			tbody.querySelectorAll('td').forEach(element => {
+				element.setAttribute('clicked', 0);
+				element.className = '';
+				table.classList.remove('with-values');
+			});
+		});
+	})();
+
+</script>
+
+</html>

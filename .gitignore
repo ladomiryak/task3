@@ -1,0 +1,28 @@
+node_modules/
+types/
+.idea/
+.vscode/
+.settings/
+
+*.map
+*.tern-project
+*.gitkeep
+*.log
+*.swp
+*.lock
+*.project
+
+# Avoid to commit large binary data
+*.psd
+*.zip
+*.7zip
+*.tar
+*.rar
+
+# Avoid to commit json configurations for upload
+dw.json
+dwupload.json
+
+# Avoid to commit static files
+app_*/cartridge/static/*/css/*
+app_*/cartridge/static/*/js/*
