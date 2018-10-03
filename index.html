@@ -92,8 +92,8 @@
         /*  store clicked data  */
         function storeClickedData(e) {
             const element = e.target;
-            const prevValue = element.innerHTML;
-            const newValue = prevValue ? Number(prevValue) + 1 : 1;
+            const prevValue = element.innerHTML || 0;
+            const newValue = parseInt(prevValue) + 1;
 
             element.innerHTML = newValue;
 
