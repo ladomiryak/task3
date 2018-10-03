@@ -89,6 +89,31 @@
             }
         }
 
+        /*  store clicked data  */
+        function storeClickedData(e) {
+            const element = e.target;
+            const prevValue = element.innerHTML;
+            const newValue = prevValue ? Number(prevValue) + 1 : 1;
+
+            element.innerHTML = newValue;
+
+            // element.style.backgroundColor = `hsla(0, 98%, ${newValue}%, 1)`;
+
+            if (newValue >= 25 && newValue < 50) {
+                element.className = 'sm';
+            } else if (newValue >= 50 && newValue < 75) {
+                element.className = 'md';
+            } else if (newValue >= 75 && newValue <= 100) {
+                element.className = 'lg';
+            }
+        }
+        
+        function listenClicks() {
+            tbody.querySelectorAll('td').forEach(element => {
+                element.addEventListener('click', storeClickedData);
+            });
+        }
+
         /*  generate random clicks  */
         function generateClicks(e){
             e.preventDefault();
@@ -98,30 +123,6 @@
                 const td = tbody.querySelectorAll('td')[randCol];
                 td.click();
             }
-        }
-
-        /*  store clicked data  */
-        function storeClickedData(){
-
-            tbody.querySelectorAll('td').forEach(element => {
-                element.addEventListener('click', (event) => {
-                    const element = event.target;
-                    const prevValue = element.innerHTML;
-                    const newValue = prevValue ? Number(prevValue) + 1 : 1;
-
-                    element.innerHTML = newValue;
-
-                    // element.style.backgroundColor = `hsla(0, 98%, ${newValue}%, 1)`;
-
-                    if (newValue >= 25 && newValue < 50) {
-                        element.className = 'sm';
-                    } else if (newValue >= 50 && newValue < 75) {
-                        element.className = 'md';
-                    } else if (newValue >= 75 && newValue <= 100) {
-                        element.className = 'lg';
-                    }
-                });
-            });
         }
 
         /*  show results  */
@@ -142,7 +143,7 @@
 
         function init() {
             generateTable();
-            storeClickedData();
+            listenClicks();
 
             generateBtn.addEventListener('click', generateClicks);
             showBtn.addEventListener('click', showResults);
